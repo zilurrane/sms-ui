@@ -1,0 +1,6 @@
+---
+applications:
+- name: sms
+  buildpack: staticfile_buildpack
+  memory: 64M
+  disk_quota: 64M
