@@ -28,7 +28,13 @@ module.exports = {
         options: {
           presets: [
             '@babel/preset-env',
-            '@babel/preset-react'
+            '@babel/preset-react',
+            {
+              'plugins': [
+                '@babel/plugin-proposal-class-properties',
+                'recharts'
+              ]
+            }
           ]
         }
       }
@@ -61,6 +67,7 @@ module.exports = {
   },
   devServer: {
     port: 5000,
+    historyApiFallback: true,
     proxy: {
       '/api': {
         target: 'http://localhost:9000'
