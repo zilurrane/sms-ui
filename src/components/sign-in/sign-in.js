@@ -4,8 +4,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import LockIcon from '@material-ui/icons/LockOutlined'
@@ -13,6 +12,9 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { withRouter } from 'react-router-dom'
+import axios from 'axios'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
 
 const styles = theme => ({
   main: {
@@ -46,7 +48,22 @@ const styles = theme => ({
   }
 })
 
-function SignIn (props) {
+const handlesignInSubmit = (history) => (values, { setSubmitting }) => {
+  setSubmitting(true)
+
+  axios.post('/api/auth/login', values)
+    .then(function (response) {
+      window.alert(JSON.stringify(response))
+      setSubmitting(false)
+      history.push('/admin')
+    })
+    .catch(function (error) {
+      console.log(error)
+      setSubmitting(false)
+    })
+}
+
+const signIn = (props) => {
   const { classes, history } = props
 
   return (
@@ -59,36 +76,61 @@ function SignIn (props) {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={() => history.push('/admin')}>
-          <FormControl margin='normal' required fullWidth>
-            <InputLabel htmlFor='email'>Email Address</InputLabel>
-            <Input id='email' name='email' autoComplete='email' autoFocus />
-          </FormControl>
-          <FormControl margin='normal' required fullWidth>
-            <InputLabel htmlFor='password'>Password</InputLabel>
-            <Input name='password' type='password' id='password' autoComplete='current-password' />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
-          />
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.submit}
-          >
-            Sign in
-          </Button>
-        </form>
+        <Formik initialValues={{ email: '', password: '' }}
+          onSubmit={handlesignInSubmit(history)}
+          validationSchema={Yup.object().shape({
+            email: Yup.string()
+              .email()
+              .required('Email ID is required'),
+            password: Yup.string()
+              .required('Password is required')
+          })}>
+          {({
+            values,
+            touched,
+            errors,
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            handleSubmit
+          }) => (
+            <form className={classes.form} onSubmit={handleSubmit} noValidate>
+              <FormControl margin='normal' required fullWidth error={errors.email && touched.email}>
+                <InputLabel htmlFor='email'>Email Address</InputLabel>
+                <Input id='email' name='email' autoComplete='email' autoFocus
+                  type='text'
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur} />
+                {errors.email &&
+                    touched.email && <FormHelperText>{errors.email}</FormHelperText>}
+              </FormControl>
+              <FormControl margin='normal' required fullWidth error={errors.password && touched.password}>
+                <InputLabel htmlFor='password'>Password</InputLabel>
+                <Input name='password' type='password' id='password' autoComplete='current-password'
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur} />
+                {errors.password &&
+                    touched.password && <FormHelperText>{errors.password}</FormHelperText>}
+              </FormControl>
+              <Button
+                type='submit'
+                fullWidth
+                variant='contained'
+                color='primary'
+                className={classes.submit} disabled={isSubmitting}> Sign in </Button>
+            </form>
+          )
+          }
+        </Formik>
       </Paper>
     </main>
   )
 }
 
-SignIn.propTypes = {
+signIn.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withRouter(withStyles(styles)(SignIn))
+export default withRouter(withStyles(styles)(signIn))
