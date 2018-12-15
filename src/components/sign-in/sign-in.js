@@ -45,10 +45,18 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3
+  },
+  errorMessage: {
+    textAlign: 'center'
   }
 })
 
-const handlesignInSubmit = (history) => (values, { setSubmitting }) => {
+// eslint-disable-next-line no-extend-native
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1)
+}
+
+const handlesignInSubmit = (history) => (values, { setSubmitting, setErrors }) => {
   setSubmitting(true)
 
   axios.post('/api/auth/login', values)
@@ -59,6 +67,10 @@ const handlesignInSubmit = (history) => (values, { setSubmitting }) => {
     })
     .catch(function (error) {
       console.log(error)
+      const errorMessage = error.response.data.message ? error.response.data.message.capitalize() : 'Authentication failed.'
+      setErrors({
+        authMessage: errorMessage
+      })
       setSubmitting(false)
     })
 }
@@ -95,6 +107,9 @@ const signIn = (props) => {
             handleSubmit
           }) => (
             <form className={classes.form} onSubmit={handleSubmit} noValidate>
+              {
+                errors.authMessage && <FormHelperText className={classes.errorMessage} error>{errors.authMessage}</FormHelperText>
+              }
               <FormControl margin='normal' required fullWidth error={errors.email && touched.email}>
                 <InputLabel htmlFor='email'>Email Address</InputLabel>
                 <Input id='email' name='email' autoComplete='email' autoFocus

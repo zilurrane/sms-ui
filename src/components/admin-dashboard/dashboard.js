@@ -127,7 +127,7 @@ class Dashboard extends React.Component {
             <IconButton
               color='inherit'
               aria-label='Open drawer'
-              onClick={this.handleDrawerOpen}
+              onClick={() => this.handleDrawerOpen()}
               className={classNames(
                 classes.menuButton,
                 this.state.open && classes.menuButtonHidden
@@ -142,7 +142,7 @@ class Dashboard extends React.Component {
               noWrap
               className={classes.title}
             >
-                            Dashboard
+              Dashboard
             </Typography>
             <IconButton color='inherit'>
               <Badge badgeContent={4} color='secondary'>
@@ -159,7 +159,7 @@ class Dashboard extends React.Component {
           open={this.state.open}
         >
           <div className={classes.toolbarIcon}>
-            <IconButton onClick={this.handleDrawerClose}>
+            <IconButton onClick={() => this.handleDrawerClose()}>
               <ChevronLeftIcon />
             </IconButton>
           </div>
@@ -171,13 +171,13 @@ class Dashboard extends React.Component {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography variant='h4' gutterBottom component='h2'>
-                        Orders
+            Orders
           </Typography>
           <Typography component='div' className={classes.chartContainer}>
             <SimpleLineChart />
           </Typography>
           <Typography variant='h4' gutterBottom component='h2'>
-                        Products
+            Products
           </Typography>
           <div className={classes.tableContainer}>
             <SimpleTable />
