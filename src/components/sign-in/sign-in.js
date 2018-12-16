@@ -61,7 +61,7 @@ const handlesignInSubmit = (history) => (values, { setSubmitting, setErrors }) =
     .then(function (response) {
       window.alert(JSON.stringify(response))
       setSubmitting(false)
-      history.push('/admin')
+      history.push(`/${response.data.data.role.toLowerCase()}`) // TODO: Need to get dashboard route using function
     })
     .catch(function (error) {
       console.log(error)
