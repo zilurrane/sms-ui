@@ -2,9 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Typography from '@material-ui/core/Typography'
 import DashboardTopMenu from '../shared/dashboard/dashboard-top-menu'
 import DashboardDrawerMenu from '../shared/dashboard/dashboard-drawer-menu'
+import { Route, Switch } from 'react-router-dom'
+import { menuItemList } from '../shared/dashboard/dashboard-drawer-menu-items'
+import NotFoundComponent from './notfound'
 
 const drawerWidth = 240
 
@@ -103,7 +105,6 @@ class Dashboard extends React.Component {
 
   render () {
     const { classes } = this.props
-
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -111,9 +112,15 @@ class Dashboard extends React.Component {
         <DashboardDrawerMenu classes={classes} isDrawerMenuOpen={this.state.open} handleDrawerClose={() => this.handleDrawerClose()} />
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Typography variant='h6' gutterBottom component='h6'>
-            Dashboard Content
-          </Typography>
+          <Switch>
+            {
+              menuItemList.map(
+                (item, key) => <Route key={key} exact path={item.link} component={item.component} />
+              )
+            }
+            <Route component={NotFoundComponent} />
+          </Switch>
+
         </main>
       </div>
     )

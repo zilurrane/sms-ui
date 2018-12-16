@@ -5,18 +5,28 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import PeopleIcon from '@material-ui/icons/People'
 import BarChartIcon from '@material-ui/icons/BarChart'
+import { Link } from 'react-router-dom'
+import HomeComponent from '../../dashboard/home'
+import StudentsComponent from '../../dashboard/students'
+import TeachersComponent from '../../dashboard/teachers'
 
-const menuItemList = [
+export const menuItemList = [
   {
     text: 'Dashboard',
-    icon: DashboardIcon
+    icon: DashboardIcon,
+    link: '/dashboard',
+    component: HomeComponent
   },
   {
     text: 'Students',
-    icon: PeopleIcon
+    icon: PeopleIcon,
+    link: '/dashboard/students',
+    component: StudentsComponent
   }, {
-    text: 'Reports',
-    icon: BarChartIcon
+    text: 'Teachers',
+    icon: BarChartIcon,
+    link: '/dashboard/teachers',
+    component: TeachersComponent
   }
 ]
 
@@ -24,7 +34,7 @@ export const DrawerMenuItems = () =>
   <Fragment>
     {
       menuItemList.map((item, key) =>
-        <ListItem button key={key}>
+        <ListItem to={item.link} component={Link} key={key}>
           <ListItemIcon>
             <item.icon />
           </ListItemIcon>

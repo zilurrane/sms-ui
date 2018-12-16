@@ -59,12 +59,10 @@ const handlesignInSubmit = (history) => (values, { setSubmitting, setErrors }) =
 
   axios.post('/api/auth/login', values)
     .then(function (response) {
-      window.alert(JSON.stringify(response))
       setSubmitting(false)
-      history.push(`/${response.data.data.role.toLowerCase()}`) // TODO: Need to get dashboard route using function
+      history.push('/dashboard') // TODO: Need to get dashboard route using function
     })
     .catch(function (error) {
-      console.log(error)
       const errorMessage = error.response.data.message ? error.response.data.message : 'Authentication failed.'
       setErrors({
         authMessage: errorMessage

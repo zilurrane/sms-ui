@@ -18,6 +18,9 @@ const htmlWebpackPlugin = new HtmlWebPackPlugin({
 })
 
 module.exports = {
+  output: {
+    publicPath: '/'
+  },
   plugins: [htmlWebpackPlugin, copyWebpackPlugin, cleanWebpackPlugin],
   module: {
     rules: [{

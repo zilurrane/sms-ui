@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import AdminDashboardComponent from './components/admin-dashboard/dashboard'
+import DashboardComponent from './components/dashboard/dashboard'
 import SignInComponent from './components/sign-in/sign-in'
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
       <Switch>
         <Route path='/' exact component={SignInComponent} />
         <Route path='/login' component={SignInComponent} />
-        <Route path='/admin' component={AdminDashboardComponent} />
+        <Route path='/dashboard' component={DashboardComponent} />
       </Switch>
     </Router>
   }
