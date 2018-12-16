@@ -9,7 +9,8 @@ const cleanWebpackPlugin = new CleanWebpackPlugin(
 
 const copyWebpackPlugin = new CopyWebpackPlugin([
   { from: 'public/assets' },
-  { from: 'manifest.yml' }
+  { from: 'manifest.yml' },
+  { from: 'Staticfile' }
 ])
 
 const htmlWebpackPlugin = new HtmlWebPackPlugin({
