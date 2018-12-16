@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsIcon from '@material-ui/icons/Notifications'
+import DashboardUserActions from './dashboard-user-actions'
 
 export default ({ classes, isDrawerMenuOpen, handleDrawerOpen }) =>
   <AppBar
@@ -36,5 +37,6 @@ export default ({ classes, isDrawerMenuOpen, handleDrawerOpen }) =>
           <NotificationsIcon />
         </Badge>
       </IconButton>
+      <DashboardUserActions />
     </Toolbar>
   </AppBar>
