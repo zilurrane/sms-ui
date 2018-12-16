@@ -47,14 +47,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3
   },
   errorMessage: {
-    textAlign: 'center'
+    textAlign: 'center',
+    '&:first-letter': {
+      textTransform: 'capitalize'
+    }
   }
 })
-
-// eslint-disable-next-line no-extend-native
-String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1)
-}
 
 const handlesignInSubmit = (history) => (values, { setSubmitting, setErrors }) => {
   setSubmitting(true)
@@ -67,7 +65,7 @@ const handlesignInSubmit = (history) => (values, { setSubmitting, setErrors }) =
     })
     .catch(function (error) {
       console.log(error)
-      const errorMessage = error.response.data.message ? error.response.data.message.capitalize() : 'Authentication failed.'
+      const errorMessage = error.response.data.message ? error.response.data.message : 'Authentication failed.'
       setErrors({
         authMessage: errorMessage
       })
